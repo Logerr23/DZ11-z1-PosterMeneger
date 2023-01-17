@@ -2,7 +2,6 @@ package ru.netology;
 
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MovieRepositoryTest {
@@ -16,8 +15,9 @@ public class MovieRepositoryTest {
 
     MovieRepository repo = new MovieRepository(5);
 
-    @BeforeEach
-    public void setup() {
+
+    @Test
+    public void AddMovie() {
         repo.addMovie(item1);
         repo.addMovie(item2);
         repo.addMovie(item3);
@@ -25,11 +25,6 @@ public class MovieRepositoryTest {
         repo.addMovie(item5);
         repo.addMovie(item6);
         repo.addMovie(item7);
-    }
-
-
-    @Test
-    public void AddMovie() {
 
         MovieItem[] expected = {item1, item2, item3, item4, item5, item6, item7};
         MovieItem[] actual = repo.findAll();
@@ -38,11 +33,52 @@ public class MovieRepositoryTest {
     }
 
     @Test
-    public void FindLast() {
+    public void FindLastMoviesOverTheLimit() {
+
+        repo.addMovie(item1);
+        repo.addMovie(item2);
+        repo.addMovie(item3);
+        repo.addMovie(item4);
+        repo.addMovie(item5);
+        repo.addMovie(item6);
+        repo.addMovie(item7);
 
         MovieItem[] expected = {item7, item6, item5, item4, item3};
         MovieItem[] actual = repo.findLast();
 
         Assertions.assertArrayEquals(expected, actual);
     }
+
+    @Test
+    public void FindLastMoviesUnderTheLimit() {
+
+        repo.addMovie(item1);
+        repo.addMovie(item2);
+        repo.addMovie(item3);
+        repo.addMovie(item4);
+
+
+        MovieItem[] expected = {item4, item3, item2, item1};
+        MovieItem[] actual = repo.findLast();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void FindLastMoviesEqualToTheLimit() {
+
+        repo.addMovie(item1);
+        repo.addMovie(item2);
+        repo.addMovie(item3);
+        repo.addMovie(item4);
+        repo.addMovie(item5);
+
+
+        MovieItem[] expected = {item5, item4, item3, item2, item1};
+        MovieItem[] actual = repo.findLast();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+
 }

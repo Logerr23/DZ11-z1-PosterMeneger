@@ -1,7 +1,6 @@
 package ru.netology;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MovieRepositoryTest2 {
@@ -19,8 +18,9 @@ public class MovieRepositoryTest2 {
 
     MovieRepository repo = new MovieRepository();
 
-    @BeforeEach
-    public void setup() {
+
+    @Test
+    public void FindLastMoviesOverTheLimit() {
         repo.addMovie(item1);
         repo.addMovie(item2);
         repo.addMovie(item3);
@@ -33,16 +33,53 @@ public class MovieRepositoryTest2 {
         repo.addMovie(item10);
         repo.addMovie(item11);
 
-    }
-
-    @Test
-    public void FindLast() {
-
         MovieItem[] expected = {item11, item10, item9, item8, item7, item6, item5, item4, item3, item2};
         MovieItem[] actual = repo.findLast();
 
         Assertions.assertArrayEquals(expected, actual);
     }
+
+    @Test
+    public void FindLastMoviesUnderTheLimit() {
+
+        repo.addMovie(item1);
+        repo.addMovie(item2);
+        repo.addMovie(item3);
+        repo.addMovie(item4);
+        repo.addMovie(item5);
+        repo.addMovie(item6);
+        repo.addMovie(item7);
+        repo.addMovie(item8);
+        repo.addMovie(item9);
+
+
+        MovieItem[] expected = {item9, item8, item7, item6, item5, item4, item3, item2, item1};
+        MovieItem[] actual = repo.findLast();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void FindLastMoviesEqualToTheLimit() {
+
+        repo.addMovie(item1);
+        repo.addMovie(item2);
+        repo.addMovie(item3);
+        repo.addMovie(item4);
+        repo.addMovie(item5);
+        repo.addMovie(item6);
+        repo.addMovie(item7);
+        repo.addMovie(item8);
+        repo.addMovie(item9);
+        repo.addMovie(item10);
+
+
+        MovieItem[] expected = {item10, item9, item8, item7, item6, item5, item4, item3, item2, item1};
+        MovieItem[] actual = repo.findLast();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
 
 }
 
